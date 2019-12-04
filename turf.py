@@ -131,19 +131,23 @@ column=list(dataset.columns)
 newdataset=dataset.dropna(how='all').replace('yes',1).fillna(0)
 totalrespon,columnssize=newdataset.shape
 
+#How much configuration can we make
+subset_size=columnssize
 
-a=turf_analysis(newdataset, subset_size=i, objective=[0,1],product_labels=column)[0]
-table=pd.DataFrame(a).T
-table.columns=['Configurations','Frequency']
-table['Frequency %']=table['Frequency']/len(newdataset)*100
-table=table.sort_values(by ='Frequency',ascending=False)
-b=turf_analysis(newdataset, subset_size=i, objective=[0,1],product_labels=column)[1]
-table1=pd.DataFrame(b).T
-table1.columns=['Configurations','Reach']
-table1['Reach %']=table1['Reach']/len(newdataset)*100
-table1=table1.sort_values(by ='Reach',ascending=False)
-print("Frequency Table")
-print(table)
-print("Reach Table")
-print(table1)
-print('\n')
+for i in range(1,subset_size+1):
+	print("subsetsize= "+str(i))
+	a=turf_analysis(newdataset, subset_size=i, objective=[0,1],product_labels=column)[0]
+	table=pd.DataFrame(a).T
+	table.columns=['Configurations','Frequency']
+	table['Frequency %']=table['Frequency']/len(newdataset)*100
+	table=table.sort_values(by ='Frequency',ascending=False)
+	b=turf_analysis(newdataset, subset_size=i, objective=[0,1],product_labels=column)[1]
+	table1=pd.DataFrame(b).T
+	table1.columns=['Configurations','Reach']
+	table1['Reach %']=table1['Reach']/len(newdataset)*100
+	table1=table1.sort_values(by ='Reach',ascending=False)
+	print("Frequency Table")
+	print(table)
+	print("Reach Table")
+	print(table1)
+	print('\n')
